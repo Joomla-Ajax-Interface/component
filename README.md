@@ -5,6 +5,7 @@ A slim, extensible component to act as an entry point for Ajax functionality in 
 URL Convention
 ==============
 Executing a ajax plugin is done by submitting a request to `index.php?option=com_ajax&group=foo&variable=value&format=json` where:
+
     * `index.php?option=com_ajax` calls the extension.
     * `group=foo` where `foo` is the Ajax plugin group to execute (i.e. onAjaxFoo).
     * `variable=value` is any variable that your plugin is getting the value of.
