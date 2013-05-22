@@ -35,9 +35,7 @@ switch ($format) {
 		$app->close();
 		break;
 	default:
-		foreach ($results as $result) {
-			echo $result;
-		}
+		echo implode($results);
 		// Emulates format=raw by closing $app
 		$app->close();
 		break;
