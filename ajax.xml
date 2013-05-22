@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.5" method="upgrade">
+<extension type="component" version="2.5" method="upgrade">
 	<name>Ajax</name>
 	<creationDate>May 20, 2013</creationDate>
 	<author>Matt Thomas</author>
@@ -19,4 +19,4 @@
 			<filename>index.html</filename>
 		</files>
 	</administration>
-</install>
+</extension>
