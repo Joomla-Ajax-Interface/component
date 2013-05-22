@@ -6,11 +6,11 @@ URL Convention
 ==============
 Executing a ajax plugin is done by submitting a request to `index.php?option=com_ajax&group=foo&variable=value&format=json` where:
 
-    * `index.php?option=com_ajax` calls the extension.
-    * `group=foo` where `foo` is the Ajax plugin group to execute (i.e. onAjaxFoo).
-    * `variable=value` is any variable that your plugin is getting the value of.
-    * `format=json` is an option argument to have the results of the executed plugin group echoed in JSON format.<br/>
-     **NOTE**: Omitting the `format` variable will default to a raw output.
+* `index.php?option=com_ajax` calls the extension.
+* `group=foo` where `foo` is the Ajax plugin group to execute (i.e. onAjaxFoo).
+* `variable=value` is any variable that your plugin is getting the value of.
+* `format=json` is an option argument to have the results of the executed plugin group echoed in JSON format.<br/>
+**NOTE**: Omitting the `format` variable will default to a raw output.
 
 The [Ajax Session Module](https://github.com/betweenbrain/Ajax-Session-Module) is an example module to demonstrate interacting with the component and [Ajax Session Plugin](https://github.com/betweenbrain/Ajax-Session-Plugin)
 
