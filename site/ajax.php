@@ -9,24 +9,44 @@
  * License    GNU GPL v3 or later
  */
 
-// Ajax plugin group to fire
-$group = ucfirst(JRequest::getVar('group'));
-
-// Import plugin group
-JPluginHelper::importPlugin('ajax');
+// Reference global application object
+$app = JFactory::getApplication();
 
 // Instantiate the JDispatcher class
 $dispatcher = JDispatcher::getInstance();
 
+// Format passed via URL
+$format = strtolower(JRequest::getVar('format'));
+
+// Ajax plugin group to fire
+$group = ucfirst(JRequest::getVar('group'));
+
+// Import Ajax plugin group
+JPluginHelper::importPlugin('ajax');
+
 // Trigger custom event
 // TODO: capture parameters from the URL
-$results = $dispatcher->trigger('onAjax' . $group, array(& $item, & $item->params, 0));
+$results = $dispatcher->trigger('onAjax' . $group, array($item, $item->params, 0));
 
-// Return the results of the plugins in tis group
-return $results;
-
+// Return the results from this plugin group in the desired format
+switch ($format) {
+	case 'json':
+		echo json_encode($results);
+		$app->close();
+		break;
+	default:
+		echo implode($results);
+		// Emulates format=raw by closing $app
+		$app->close();
+		break;
+}
 
 /*
  * References
+ *  Support plugins in your component
  * - http://docs.joomla.org/Supporting_plugins_in_your_component
+ *
+ * Best way for JSON output
+ * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
+ *
  */
