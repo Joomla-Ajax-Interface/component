@@ -25,8 +25,7 @@ $group = ucfirst(JRequest::getVar('group'));
 JPluginHelper::importPlugin('ajax');
 
 // Trigger custom event
-// TODO: capture parameters from the URL
-$results = $dispatcher->trigger('onAjax' . $group, array($item, $item->params, 0));
+$results = $dispatcher->trigger('onAjax' . $group);
 
 // Return the results from this plugin group in the desired format
 switch ($format) {
