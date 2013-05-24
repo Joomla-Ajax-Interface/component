@@ -33,8 +33,18 @@ switch ($format) {
 		echo json_encode($results);
 		$app->close();
 		break;
+	case 'debug':
+		echo '<pre>' . print_r($results, TRUE) . '</pre>';
+		$app->close();
+		break;
 	default:
-		echo implode($results);
+		foreach ($results as $result) {
+			if (is_array($result)) {
+				echo implode($result);
+			} else {
+				echo $result;
+			}
+		};
 		// Emulates format=raw by closing $app
 		$app->close();
 		break;
