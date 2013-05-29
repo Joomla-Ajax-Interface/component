@@ -15,17 +15,29 @@ $app = JFactory::getApplication();
 // Instantiate the JDispatcher class
 $dispatcher = JDispatcher::getInstance();
 
+if (JRequest::getVar('module')) {
+	$module = JRequest::getVar('module');
+	$helper = JRequest::getVar('helper', 'helper');
+	$class  = JRequest::getVar('class', 'mod' . ucfirst($module) . 'Helper');
+	$method = JRequest::getVar('method', 'getAjax');
+
+	require_once(JPATH_ROOT . '/modules/mod_' . $module . '/' . $helper . '.php');
+	$results = $class::$method($params);
+}
+
+if (JRequest::getVar('plugin')) {
+	// Import Ajax plugin group
+	JPluginHelper::importPlugin('ajax');
+
+	// Ajax plugin to fire
+	$plugin = ucfirst(JRequest::getVar('plugin'));
+
+	// Trigger custom event
+	$results = $dispatcher->trigger('onAjax' . $plugin);
+}
+
 // Format passed via URL
 $format = strtolower(JRequest::getVar('format'));
-
-// Ajax plugin group to fire
-$group = ucfirst(JRequest::getVar('group'));
-
-// Import Ajax plugin group
-JPluginHelper::importPlugin('ajax');
-
-// Trigger custom event
-$results = $dispatcher->trigger('onAjax' . $group);
 
 // Return the results from this plugin group in the desired format
 switch ($format) {
