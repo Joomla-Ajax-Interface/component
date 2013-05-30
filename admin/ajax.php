@@ -4,17 +4,22 @@
  * File       ajax.php
  * Created    5/20/13 4:54 PM
  * Author     Matt Thomas | matt@betweenbrain.com | http://betweenbrain.com
- * Support    https://github.com/betweenbrain/
+ * Support    https://github.com/betweenbrain/Joomla-Ajax-Interface/issues
  * Copyright  Copyright (C) 2013 betweenbrain llc. All Rights Reserved.
  * License    GNU GPL v3 or later
  */
 
-// Reference global application object
-$app = JFactory::getApplication();
-
-// Instantiate the JDispatcher class
-$dispatcher = JDispatcher::getInstance();
-
+/*
+ * Module support is via the module helper file.
+ *
+ * By default, the getAjax method of the modFooHelper class will be called,
+ * where foo is the value of the module variable passed via the URL
+ * (i.e. index.php?option=com_ajax&module=foo).
+ *
+ * Optionally pass values for the 'helper' file, 'class', and 'method' names.
+ *
+ */
+//TODO: Investigate using JInput and possible deprecation of getVar.
 if (JRequest::getVar('module')) {
 	$module = JRequest::getVar('module');
 	$helper = JRequest::getVar('helper', 'helper');
@@ -25,21 +30,27 @@ if (JRequest::getVar('module')) {
 	$results = $class::$method($params);
 }
 
+/*
+ * Plugin support is based on the "Ajax" plugin group.
+ *
+ * The plugin event triggered is onAjaxFoo, where foo is the value of the
+ * 'plugin' variable passed via the URL (i.e. index.php?option=com_ajax&plugin=foo)
+ *
+ */
 if (JRequest::getVar('plugin')) {
-	// Import Ajax plugin group
 	JPluginHelper::importPlugin('ajax');
-
-	// Ajax plugin to fire
-	$plugin = ucfirst(JRequest::getVar('plugin'));
-
-	// Trigger custom event
-	$results = $dispatcher->trigger('onAjax' . $plugin);
+	$plugin     = ucfirst(JRequest::getVar('plugin'));
+	$dispatcher = JDispatcher::getInstance();
+	$results    = $dispatcher->trigger('onAjax' . $plugin);
 }
 
-// Format passed via URL
+// Reference global application object
+$app = JFactory::getApplication();
+
+// Requested format passed via URL
 $format = strtolower(JRequest::getVar('format'));
 
-// Return the results from this plugin group in the desired format
+// Return the results in the desired format
 switch ($format) {
 	case 'json':
 		echo json_encode($results);
