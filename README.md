@@ -4,12 +4,13 @@ A slim, extensible component to act as an entry point for Ajax functionality in 
 
 URL Convention
 ==============
-Executing a ajax plugin is done by submitting a request to `index.php?option=com_ajax&group=foo&variable=value&format=json` where:
+Ajax events are triggered by submitting a request to `index.php?option=com_ajax` where:
 
 * `index.php?option=com_ajax` calls the extension.
-* `group=foo` where `foo` is the Ajax plugin group to execute (i.e. onAjaxFoo).
-* `variable=value` is any variable that your plugin is getting the value of.
-* `format=json` is an option argument to have the results of the executed plugin group echoed in JSON format.<br/>
+* `plugin=foo` where `foo` is the Ajax plugin group to execute (i.e. onAjaxFoo).
+* `module=foo` where `foo` is the name of the module of which you wanrt to access the helper file of. Optionally pass values for the `helper` file, `class`, and `method` names.
+* Include additonal variables and values for your target component to use (i.e. `variable=value`).
+* `format=json` is an option argument for JSON format and `format=debug` is an option argument for a basic human-readable format.<br/>
 **NOTE**: Omitting the `format` variable will default to a raw output.
 
 The [Ajax Session Module](https://github.com/betweenbrain/Ajax-Session-Module) is an example module to demonstrate interacting with the component and [Ajax Session Plugin](https://github.com/betweenbrain/Ajax-Session-Plugin)
