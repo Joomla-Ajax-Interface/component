@@ -38,13 +38,7 @@ switch ($format) {
 		$app->close();
 		break;
 	default:
-		foreach ($results as $result) {
-			if (is_array($result)) {
-				echo implode($result);
-			} else {
-				echo $result;
-			}
-		};
+		echo is_array($results) ? implode($results) : $results;
 		// Emulates format=raw by closing $app
 		$app->close();
 		break;
