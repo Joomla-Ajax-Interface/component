@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
 	<name>Ajax</name>
-	<creationDate>May 20, 2013</creationDate>
 	<author>Matt Thomas</author>
+	<creationDate>June 5, 2013</creationDate>
 	<authorUrl>http://betweenbrain.com</authorUrl>
 	<copyright>Copyright (C) 2013 betweenbrain llc. All rights reserved.</copyright>
-	<version>0.1</version>
-	<description>A Joomla Ajax interface</description>
+	<license>GNU General Public License version 2, or later.</license>
+	<version>2.5.1</version>
+	<description>A Joomla! 2.5+ Ajax interface</description>
 
 	<files folder="site">
 		<filename>ajax.php</filename>
