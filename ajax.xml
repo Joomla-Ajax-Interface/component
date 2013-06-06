@@ -2,7 +2,7 @@
 <extension type="component" version="2.5" method="upgrade">
 	<name>Ajax</name>
 	<author>Matt Thomas</author>
-	<creationDate>June 5, 2013</creationDate>
+	<creationDate>June 6, 2013</creationDate>
 	<authorUrl>http://betweenbrain.com</authorUrl>
 	<copyright>Copyright (C) 2013 betweenbrain llc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2, or later.</license>
