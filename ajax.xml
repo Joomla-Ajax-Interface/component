@@ -8,6 +8,8 @@
 	<version>0.1</version>
 	<description>A Joomla Ajax interface</description>
 
+	<scriptfile>script.php</scriptfile>
+
 	<files folder="site">
 		<filename>ajax.php</filename>
 		<filename>index.html</filename>
