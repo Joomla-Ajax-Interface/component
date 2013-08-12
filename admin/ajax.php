@@ -12,11 +12,14 @@
 // Reference global application object
 $app = JFactory::getApplication();
 
-// Requested format passed via URL
-$format = strtolower(JRequest::getVar('format'));
-
 // JInput object
 $input = JFactory::getApplication()->input;
+
+// Requested format passed via URL
+$format = strtolower($input->get('format'));
+
+// Initialized to prevent notice in case someone tries to access directly
+$results = '';
 
 /*
  * Module support is via the module helper file.
