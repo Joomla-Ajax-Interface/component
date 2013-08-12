@@ -31,7 +31,6 @@ $results = '';
  * Optionally pass values for the 'helper' file, 'class', and 'method' names.
  *
  */
-//TODO: Investigate using JInput and possible deprecation of getVar.
 if ($input->get('module')) {
 	$module = $input->get('module');
 	$helper = $input->get('helper', 'helper');
