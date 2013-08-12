@@ -12,13 +12,11 @@
 
 	<files folder="site">
 		<filename>ajax.php</filename>
-		<filename>index.html</filename>
 	</files>
 
 	<administration>
 		<files folder="admin">
 			<filename>ajax.php</filename>
-			<filename>index.html</filename>
 		</files>
 	</administration>
 </extension>
