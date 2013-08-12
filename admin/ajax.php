@@ -9,6 +9,15 @@
  * License    GNU General Public License version 2, or later.
  */
 
+// Reference global application object
+$app = JFactory::getApplication();
+
+// Requested format passed via URL
+$format = strtolower(JRequest::getVar('format'));
+
+// JInput object
+$input = JFactory::getApplication()->input;
+
 /*
  * Module support is via the module helper file.
  *
@@ -20,11 +29,11 @@
  *
  */
 //TODO: Investigate using JInput and possible deprecation of getVar.
-if (JRequest::getVar('module')) {
-	$module = JRequest::getVar('module');
-	$helper = JRequest::getVar('helper', 'helper');
-	$class  = JRequest::getVar('class', 'mod' . ucfirst($module) . 'Helper');
-	$method = JRequest::getVar('method', 'getAjax');
+if ($input->get('module')) {
+	$module = $input->get('module');
+	$helper = $input->get('helper', 'helper');
+	$class  = $input->get('class', 'mod' . ucfirst($module) . 'Helper');
+	$method = $input->get('method', 'getAjax');
 
 	require_once(JPATH_ROOT . '/modules/mod_' . $module . '/' . $helper . '.php');
 	$results = $class::$method($params);
@@ -37,18 +46,12 @@ if (JRequest::getVar('module')) {
  * 'plugin' variable passed via the URL (i.e. index.php?option=com_ajax&plugin=foo)
  *
  */
-if (JRequest::getVar('plugin')) {
+if ($input->get('plugin')) {
 	JPluginHelper::importPlugin('ajax');
-	$plugin     = ucfirst(JRequest::getVar('plugin'));
+	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JDispatcher::getInstance();
 	$results    = $dispatcher->trigger('onAjax' . $plugin);
 }
-
-// Reference global application object
-$app = JFactory::getApplication();
-
-// Requested format passed via URL
-$format = strtolower(JRequest::getVar('format'));
 
 // Return the results in the desired format
 switch ($format) {
