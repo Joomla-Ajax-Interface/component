@@ -55,7 +55,7 @@ class Com_AjaxInstallerScript
 		$results = $db->execute();
 		} catch (Exception $e) {
 		//print the errors
-		print_r($e);
+		echo $e->getMessage();
 		}
 	}
 }
