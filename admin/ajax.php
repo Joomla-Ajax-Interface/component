@@ -19,7 +19,6 @@
  * Optionally pass values for the 'helper' file, 'class', and 'method' names.
  *
  */
-//TODO: Investigate using JInput and possible deprecation of getVar.
 if (JRequest::getVar('module')) {
 	$module = JRequest::getVar('module');
 	$helper = JRequest::getVar('helper', 'helper');
