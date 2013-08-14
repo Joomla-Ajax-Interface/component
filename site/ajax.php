@@ -22,13 +22,11 @@ $format = strtolower($input->get('format'));
 $results = '';
 
 /*
- * Module support is via the module helper file.
+ * Module support.
  *
- * By default, the getAjax method of the modFooHelper class will be called,
- * where foo is the value of the module variable passed via the URL
+ * modFooHelper::getAjax() is called where 'foo' is the value
+ * of the 'module' variable passed via the URL 
  * (i.e. index.php?option=com_ajax&module=foo).
- *
- * Optionally pass values for the 'helper' file, 'class', and 'method' names.
  *
  */
 if ($input->get('module')) {
@@ -55,8 +53,9 @@ if ($input->get('module')) {
 /*
  * Plugin support is based on the "Ajax" plugin group.
  *
- * The plugin event triggered is onAjaxFoo, where foo is the value of the
- * 'plugin' variable passed via the URL (i.e. index.php?option=com_ajax&plugin=foo)
+ * The plugin event triggered is onAjaxFoo, where 'foo' is
+ * the value of the 'plugin' variable passed via the URL
+ * (i.e. index.php?option=com_ajax&plugin=foo)
  *
  */
 if ($input->get('plugin')) {
