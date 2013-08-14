@@ -9,49 +9,89 @@
  * License    GNU General Public License version 2, or later.
  */
 
+// Reference global application object
+$app = JFactory::getApplication();
+
+// JInput object
+$input = JFactory::getApplication()->input;
+
+// Requested format passed via URL
+$format = strtolower($input->get('format'));
+
+// Initialized to prevent notice in case someone tries to access directly
+$results = '';
+
 /*
- * Module support is via the module helper file.
+ * Module support.
  *
- * By default, the getAjax method of the modFooHelper class will be called,
- * where foo is the value of the module variable passed via the URL
+ * modFooHelper::getAjax() is called where 'foo' is the value
+ * of the 'module' variable passed via the URL 
  * (i.e. index.php?option=com_ajax&module=foo).
  *
- * Optionally pass values for the 'helper' file, 'class', and 'method' names.
- *
  */
-//TODO: Investigate using JInput and possible deprecation of getVar.
-if (JRequest::getVar('module')) {
-	$module = JRequest::getVar('module');
-	$helper = JRequest::getVar('helper', 'helper');
-	$class  = JRequest::getVar('class', 'mod' . ucfirst($module) . 'Helper');
-	$method = JRequest::getVar('method', 'getAjax');
+if ($input->get('module'))
+{
 
-	require_once(JPATH_ROOT . '/modules/mod_' . $module . '/' . $helper . '.php');
-	$results = $class::$method($params);
+	$module = $input->get('module');
+	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
+
+	/*
+	 * As JModuleHelper::isEnabled always returns true, we check
+	 * for an id other than 0 to see if it is published.
+	 */
+	if ($moduleObject->id != 0)
+	{
+
+		jimport('joomla.filesystem.file');
+		$class = 'mod' . ucfirst($module) . 'Helper';
+		$helperFile = JPATH_ROOT . '/modules/mod_' . $module . '/helper.php';
+
+		if (JFile::exists($helperFile))
+		{
+			require_once($helperFile);
+
+			if (method_exists($class, 'getAjax'))
+			{
+				$results = $class::getAjax();
+			}
+			else
+			{
+				// getAjax method does not exist
+				JError::raiseError(404, JText::_("Page Not Found"));
+			}
+		}
+		else
+		{
+			// Helper file does not exist
+			JError::raiseError(404, JText::_("Page Not Found"));
+		}
+	}
+	else
+	{
+		// Module not published
+		JError::raiseError(404, JText::_("Page Not Found"));
+	}
 }
 
 /*
  * Plugin support is based on the "Ajax" plugin group.
  *
- * The plugin event triggered is onAjaxFoo, where foo is the value of the
- * 'plugin' variable passed via the URL (i.e. index.php?option=com_ajax&plugin=foo)
+ * The plugin event triggered is onAjaxFoo, where 'foo' is
+ * the value of the 'plugin' variable passed via the URL
+ * (i.e. index.php?option=com_ajax&plugin=foo)
  *
  */
-if (JRequest::getVar('plugin')) {
+if ($input->get('plugin'))
+{
 	JPluginHelper::importPlugin('ajax');
-	$plugin     = ucfirst(JRequest::getVar('plugin'));
+	$plugin = ucfirst($input->get('plugin'));
 	$dispatcher = JDispatcher::getInstance();
-	$results    = $dispatcher->trigger('onAjax' . $plugin);
+	$results = $dispatcher->trigger('onAjax' . $plugin);
 }
 
-// Reference global application object
-$app = JFactory::getApplication();
-
-// Requested format passed via URL
-$format = strtolower(JRequest::getVar('format'));
-
 // Return the results in the desired format
-switch ($format) {
+switch ($format)
+{
 	case 'json':
 		echo json_encode($results);
 		$app->close();
