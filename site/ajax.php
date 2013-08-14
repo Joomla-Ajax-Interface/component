@@ -32,13 +32,24 @@ $results = '';
  *
  */
 if ($input->get('module')) {
-	$module = $input->get('module');
-	$helper = $input->get('helper', 'helper');
-	$class  = $input->get('class', 'mod' . ucfirst($module) . 'Helper');
-	$method = $input->get('method', 'getAjax');
 
-	require_once(JPATH_ROOT . '/modules/mod_' . $module . '/' . $helper . '.php');
-	$results = $class::$method($params);
+	jimport('joomla.filesystem.file');
+
+	$module     = $input->get('module');
+	$class      = 'mod' . ucfirst($module) . 'Helper';
+	$helperFile = JPATH_ROOT . '/modules/mod_' . $module . '/helper.php';
+
+	if (JFile::exists($helperFile)) {
+		require_once($helperFile);
+
+		if (method_exists($class, 'getAjax')) {
+			$results = $class::getAjax();
+		} else {
+			JError::raiseError(404, JText::_("Page Not Found"));
+		}
+	} else {
+		JError::raiseError(404, JText::_("Page Not Found"));
+	}
 }
 
 /*
