@@ -29,33 +29,45 @@ $results = '';
  * (i.e. index.php?option=com_ajax&module=foo).
  *
  */
-if ($input->get('module')) {
+if ($input->get('module'))
+{
 
-	$module     = $input->get('module');
-
+	$module = $input->get('module');
 	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
-	// As JModuleHelper::isEnabled always returns true, we check
-	// for an id other than 0 to see if it is published.
-	if($moduleObject->id != 0) {
+
+	/*
+	 * As JModuleHelper::isEnabled always returns true, we check
+	 * for an id other than 0 to see if it is published.
+	 */
+	if ($moduleObject->id != 0)
+	{
 
 		jimport('joomla.filesystem.file');
-		$class      = 'mod' . ucfirst($module) . 'Helper';
+		$class = 'mod' . ucfirst($module) . 'Helper';
 		$helperFile = JPATH_ROOT . '/modules/mod_' . $module . '/helper.php';
 
-		if (JFile::exists($helperFile)) {
+		if (JFile::exists($helperFile))
+		{
 			require_once($helperFile);
 
-			if (method_exists($class, 'getAjax')) {
+			if (method_exists($class, 'getAjax'))
+			{
 				$results = $class::getAjax();
-			} else {
+			}
+			else
+			{
 				// getAjax method does not exist
 				JError::raiseError(404, JText::_("Page Not Found"));
 			}
-		} else {
+		}
+		else
+		{
 			// Helper file does not exist
 			JError::raiseError(404, JText::_("Page Not Found"));
 		}
-	} else {
+	}
+	else
+	{
 		// Module not published
 		JError::raiseError(404, JText::_("Page Not Found"));
 	}
@@ -69,15 +81,17 @@ if ($input->get('module')) {
  * (i.e. index.php?option=com_ajax&plugin=foo)
  *
  */
-if ($input->get('plugin')) {
+if ($input->get('plugin'))
+{
 	JPluginHelper::importPlugin('ajax');
-	$plugin     = ucfirst($input->get('plugin'));
+	$plugin = ucfirst($input->get('plugin'));
 	$dispatcher = JDispatcher::getInstance();
-	$results    = $dispatcher->trigger('onAjax' . $plugin);
+	$results = $dispatcher->trigger('onAjax' . $plugin);
 }
 
 // Return the results in the desired format
-switch ($format) {
+switch ($format)
+{
 	case 'json':
 		echo json_encode($results);
 		$app->close();
