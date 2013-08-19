@@ -32,7 +32,7 @@ $results = '';
 if ($input->get('module'))
 {
 
-	$module = $input->get('module');
+	$module       = $input->get('module');
 	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
 
 	/*
@@ -43,16 +43,18 @@ if ($input->get('module'))
 	{
 
 		jimport('joomla.filesystem.file');
-		$class = 'mod' . ucfirst($module) . 'Helper';
 		$helperFile = JPATH_ROOT . '/modules/mod_' . $module . '/helper.php';
+
+		$class  = 'mod' . ucfirst($module) . 'Helper';
+		$method = $input->get('method') ? $input->get('method') : 'get';
 
 		if (JFile::exists($helperFile))
 		{
 			require_once($helperFile);
 
-			if (method_exists($class, 'getAjax'))
+			if (method_exists($class, $method . 'Ajax'))
 			{
-				$results = $class::getAjax();
+				$results = call_user_func($class . '::' . $method . 'Ajax');
 			}
 			else
 			{
@@ -84,9 +86,9 @@ if ($input->get('module'))
 if ($input->get('plugin'))
 {
 	JPluginHelper::importPlugin('ajax');
-	$plugin = ucfirst($input->get('plugin'));
+	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JDispatcher::getInstance();
-	$results = $dispatcher->trigger('onAjax' . $plugin);
+	$results    = $dispatcher->trigger('onAjax' . $plugin);
 }
 
 // Return the results in the desired format
@@ -97,7 +99,7 @@ switch ($format)
 		$app->close();
 		break;
 	case 'debug':
-		echo '<pre>' . print_r($results, TRUE) . '</pre>';
+		echo '<pre>' . print_r($results, true) . '</pre>';
 		$app->close();
 		break;
 	default:
