@@ -32,45 +32,24 @@ $results = '';
 if ($input->get('module'))
 {
 
-	$module       = $input->get('module');
+	jimport('joomla.filesystem.file');
+	$module = $input->get('module');
+	$class = 'mod' . ucfirst($module) . 'Helper';
+	$helperFile = JPATH_ROOT . '/modules/mod_' . $module . '/helper.php';
 	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
 
 	/*
 	 * As JModuleHelper::isEnabled always returns true, we check
 	 * for an id other than 0 to see if it is published.
 	 */
-	if ($moduleObject->id != 0)
+	if ($moduleObject->id != 0 && JFile::exists($helperFile) && method_exists($class, 'getAjax'))
 	{
-
-		jimport('joomla.filesystem.file');
-		$helperFile = JPATH_ROOT . '/modules/mod_' . $module . '/helper.php';
-
-		$class  = 'mod' . ucfirst($module) . 'Helper';
-		$method = $input->get('method') ? $input->get('method') : 'get';
-
-		if (JFile::exists($helperFile))
-		{
-			require_once($helperFile);
-
-			if (method_exists($class, $method . 'Ajax'))
-			{
-				$results = call_user_func($class . '::' . $method . 'Ajax');
-			}
-			else
-			{
-				// getAjax method does not exist
-				JError::raiseError(404, JText::_("Page Not Found"));
-			}
-		}
-		else
-		{
-			// Helper file does not exist
-			JError::raiseError(404, JText::_("Page Not Found"));
-		}
+		require_once($helperFile);
+		$results = $class::getAjax();
 	}
 	else
 	{
-		// Module not published
+		// module not publishd, helper file doesn't exist, or getAjax method does not exist
 		JError::raiseError(404, JText::_("Page Not Found"));
 	}
 }
@@ -86,9 +65,9 @@ if ($input->get('module'))
 if ($input->get('plugin'))
 {
 	JPluginHelper::importPlugin('ajax');
-	$plugin     = ucfirst($input->get('plugin'));
+	$plugin = ucfirst($input->get('plugin'));
 	$dispatcher = JDispatcher::getInstance();
-	$results    = $dispatcher->trigger('onAjax' . $plugin);
+	$results = $dispatcher->trigger('onAjax' . $plugin);
 }
 
 // Return the results in the desired format
@@ -99,7 +78,7 @@ switch ($format)
 		$app->close();
 		break;
 	case 'debug':
-		echo '<pre>' . print_r($results, true) . '</pre>';
+		echo '<pre>' . print_r($results, TRUE) . '</pre>';
 		$app->close();
 		break;
 	default:
