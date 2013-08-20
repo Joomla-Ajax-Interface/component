@@ -8,7 +8,8 @@ Ajax events are triggered by submitting a request to `index.php?option=com_ajax`
 
 * `index.php?option=com_ajax` calls the extension.
 * `plugin=foo` where `foo` is the Ajax plugin group to execute (i.e. onAjaxFoo).
-* `module=foo` where `foo` is the name of the module of which you want to access the helper file of. Optionally pass values for the `helper` file, `class`, and `method` names.
+* `module=foo` where `foo` is the name of the module. This variable is used to include the helper file (e.g. `/modules/mod_foo/helper.php`) as well as the class name (e.g. `modFooHelper`).
+* `method=bar`, defaults to `get` if not defined, where `bar` is the first portion of the `_Ajax()` method in the module's helper.php file (e.g. `barAjax()`). This exmaple would call `modFooHelper::barAjax()`.
 * Include additional variables and values for your target component to use (i.e. `variable=value`).
 * `format=json` is an option argument for JSON format and `format=debug` is an option argument for a basic human-readable format.<br/>
 **NOTE**: Omitting the `format` variable will default to a raw output.
