@@ -74,6 +74,7 @@ if ($input->get('plugin'))
 switch ($format)
 {
 	case 'json':
+		JResponse::setHeader('Content-Type', 'application/json', TRUE);
 		echo json_encode($results);
 		$app->close();
 		break;
