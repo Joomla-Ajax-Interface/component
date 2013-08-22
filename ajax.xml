@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="2.5" method="upgrade">
+<extension type="component"
+           version="2.5"
+           method="upgrade">
 	<name>Ajax</name>
 	<author>Matt Thomas</author>
 	<creationDate>June 6, 2013</creationDate>
@@ -12,9 +14,14 @@
 	<scriptfile>script.php</scriptfile>
 
 	<files folder="site">
+		<folder>language</folder>
 		<filename>ajax.php</filename>
 		<filename>index.html</filename>
 	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.com_ajax.ini</language>
+	</languages>
 
 	<administration>
 		<files folder="admin">
