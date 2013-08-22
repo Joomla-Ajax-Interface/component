@@ -59,19 +59,19 @@ if ($input->get('module'))
 			else
 			{
 				// getAjax method does not exist
-				JError::raiseError(404, JText::_("Page Not Found"));
+				$error = JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax');
 			}
 		}
 		else
 		{
 			// Helper file does not exist
-			JError::raiseError(404, JText::_("Page Not Found"));
+			$error = JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php');
 		}
 	}
 	else
 	{
 		// Module not published
-		JError::raiseError(404, JText::_("Page Not Found"));
+		$error = JText::_('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module);
 	}
 }
 
@@ -91,11 +91,17 @@ if ($input->get('plugin'))
 	$results    = $dispatcher->trigger('onAjax' . $plugin);
 }
 
+if ($error)
+{
+	echo $error;
+	$app->close();
+}
+
 // Return the results in the desired format
 switch ($format)
 {
 	case 'json':
-		JResponse::setHeader('Content-Type', 'application/json', TRUE);
+		JResponse::setHeader('Content-Type', 'application/json', true);
 		echo json_encode($results);
 		$app->close();
 		break;
