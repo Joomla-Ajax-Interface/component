@@ -32,25 +32,46 @@ $results = '';
 if ($input->get('module'))
 {
 
-	jimport('joomla.filesystem.file');
-	$module = $input->get('module');
-	$class = 'mod' . ucfirst($module) . 'Helper';
-	$helperFile = JPATH_ROOT . '/modules/mod_' . $module . '/helper.php';
+	$module       = $input->get('module');
 	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
 
 	/*
 	 * As JModuleHelper::isEnabled always returns true, we check
 	 * for an id other than 0 to see if it is published.
 	 */
-	if ($moduleObject->id != 0 && JFile::exists($helperFile) && method_exists($class, 'getAjax'))
+	if ($moduleObject->id != 0)
 	{
-		require_once($helperFile);
-		$results = $class::getAjax();
+
+		jimport('joomla.filesystem.file');
+		$helperFile = JPATH_ROOT . '/modules/mod_' . $module . '/helper.php';
+
+		$class  = 'mod' . ucfirst($module) . 'Helper';
+		$method = $input->get('method') ? $input->get('method') : 'get';
+
+		if (JFile::exists($helperFile))
+		{
+			require_once($helperFile);
+
+			if (method_exists($class, $method . 'Ajax'))
+			{
+				$results = call_user_func($class . '::' . $method . 'Ajax');
+			}
+			else
+			{
+				// getAjax method does not exist
+				$error = JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax');
+			}
+		}
+		else
+		{
+			// Helper file does not exist
+			$error = JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php');
+		}
 	}
 	else
 	{
-		// module not publishd, helper file doesn't exist, or getAjax method does not exist
-		JError::raiseError(404, JText::_("Page Not Found"));
+		// Module not published
+		$error = JText::_('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module);
 	}
 }
 
@@ -65,21 +86,27 @@ if ($input->get('module'))
 if ($input->get('plugin'))
 {
 	JPluginHelper::importPlugin('ajax');
-	$plugin = ucfirst($input->get('plugin'));
+	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JDispatcher::getInstance();
-	$results = $dispatcher->trigger('onAjax' . $plugin);
+	$results    = $dispatcher->trigger('onAjax' . $plugin);
+}
+
+if ($error)
+{
+	echo $error;
+	$app->close();
 }
 
 // Return the results in the desired format
 switch ($format)
 {
 	case 'json':
-		JResponse::setHeader('Content-Type', 'application/json', TRUE);
+		JResponse::setHeader('Content-Type', 'application/json', true);
 		echo json_encode($results);
 		$app->close();
 		break;
 	case 'debug':
-		echo '<pre>' . print_r($results, TRUE) . '</pre>';
+		echo '<pre>' . print_r($results, true) . '</pre>';
 		$app->close();
 		break;
 	default:
