@@ -69,7 +69,7 @@ if ($input->get('module'))
 	}
 	else
 	{
-		$error = JText::_sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module);
+		$error = JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module);
 	}
 }
 
@@ -86,7 +86,8 @@ if ($input->get('plugin'))
 	JPluginHelper::importPlugin('ajax');
 	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JDispatcher::getInstance();
-	$results    = $dispatcher->trigger('onAjax' . $plugin);
+	$response   = $dispatcher->trigger('onAjax' . $plugin);
+	$results    = $response ? $response : JText::sprintf('COM_AJAX_NO_PLUGIN_RESPONSE', $plugin);
 }
 
 if (!is_null($error))
