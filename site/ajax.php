@@ -33,6 +33,7 @@ $error   = NULL;
  *
  */
 if (JRequest::getVar('module')) {
+	jimport( 'joomla.application.module.helper' );
 	$module       = JRequest::getVar('module');
 	$moduleObject = JModuleHelper::getModule('mod_' . $module, NULL);
 
