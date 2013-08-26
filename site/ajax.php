@@ -12,9 +12,6 @@
 // Reference global application object
 $app = JFactory::getApplication();
 
-// JInput object
-$input = $app->input;
-
 // Requested format passed via URL
 $format = strtolower(JRequest::getWord('format'));
 
