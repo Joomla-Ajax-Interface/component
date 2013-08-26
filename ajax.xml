@@ -12,12 +12,14 @@
 	<scriptfile>script.php</scriptfile>
 
 	<files folder="site">
+		<folder>language</folder>
 		<filename>ajax.php</filename>
 		<filename>index.html</filename>
 	</files>
 
 	<administration>
 		<files folder="admin">
+			<folder>language</folder>
 			<filename>ajax.php</filename>
 			<filename>index.html</filename>
 		</files>
