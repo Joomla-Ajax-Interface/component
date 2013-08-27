@@ -11,8 +11,8 @@ Anatomy of an Ajax Request
 
 **Optional**
 
-- `format=[json|debug]`
-- `method=[get|custom fragment]`
+- `format=[json|debug]` defaults to raw if omitted.
+- `method=[custom fragment]` defaults to `get` if omitted. 
 
 **Overview**
 
