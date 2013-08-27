@@ -12,7 +12,7 @@ Anatomy of an Ajax Request
 **Optional**
 
 - `format=[json|debug]` defaults to raw if omitted.
-- `method=[custom fragment]` defaults to `get` if omitted. 
+- `method=[custom fragment]` defaults to `get` if omitted.
 
 **Overview**
 
@@ -25,9 +25,11 @@ For example, a request to `?option=com_ajax&module=session` would call `mod_sess
 Module Support
 ---------------
 **Summary**
+
 Module support is accomplished via including the module's helper.php file and calling a helper class and method in that file.
 
 **Details**
+
 Module requests must include the `module` variable in the URL, paired with the name of the module (i.e. `module=session` for `mod_session`).
 
 This value is also used for:
@@ -42,9 +44,11 @@ The [Ajax Session Module](https://github.com/betweenbrain/Ajax-Session-Module) i
 Plugin Response
 ---------------
 **Summary**
+
 Plugin support is accomplished by loading and triggering all enabled plugins that are part of the `onAjax[Name]` plugin group.
 
 **Details**
+
 Plugin requests must include the `plugin` variable in the URL, paired with the name of the plugin group (i.e. `plugin=session` for `onAjaxSession`).
 
 This value is also used for:
@@ -60,7 +64,7 @@ Response Format
 - `json` for JSON format
 - `debug` for human-readable output of the results.
 
-**NOTE**: Omitting the `format` variable will default to a raw output.
+NOTE: Omitting the `format` variable will default to a raw output.
 
 Stable Master Branch Policy
 ====================
