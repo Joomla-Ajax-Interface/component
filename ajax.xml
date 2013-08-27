@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+	<name>Ajax</name>
+	<author>Matt Thomas</author>
+	<creationDate>June 6, 2013</creationDate>
+	<authorUrl>http://betweenbrain.com</authorUrl>
+	<copyright>Copyright (C) 2013 betweenbrain llc. All rights reserved.</copyright>
+	<license>GNU General Public License version 2, or later.</license>
+	<version>2.5.1</version>
+	<description>A Joomla! 2.5+ Ajax interface</description>
+
+	<scriptfile>script.php</scriptfile>
+
+	<files folder="site">
+		<folder>language</folder>
+		<filename>ajax.php</filename>
+		<filename>index.html</filename>
+	</files>
+
+	<administration>
+		<files folder="admin">
+			<folder>language</folder>
+			<filename>ajax.php</filename>
+			<filename>index.html</filename>
+		</files>
+	</administration>
+</extension>
