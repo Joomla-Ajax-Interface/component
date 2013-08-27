@@ -9,6 +9,16 @@
  * License    GNU General Public License version 2, or later.
  */
 
+// Reference global application object
+$app = JFactory::getApplication();
+
+// Requested format passed via URL
+$format = strtolower(JRequest::getWord('format'));
+
+// Initialized to prevent notices
+$results = NULL;
+$error   = NULL;
+
 /*
  * Module support is via the module helper file.
  *
@@ -19,15 +29,37 @@
  * Optionally pass values for the 'helper' file, 'class', and 'method' names.
  *
  */
-//TODO: Investigate using JInput and possible deprecation of getVar.
 if (JRequest::getVar('module')) {
-	$module = JRequest::getVar('module');
-	$helper = JRequest::getVar('helper', 'helper');
-	$class  = JRequest::getVar('class', 'mod' . ucfirst($module) . 'Helper');
-	$method = JRequest::getVar('method', 'getAjax');
+	jimport('joomla.application.module.helper');
+	$module       = JRequest::getWord('module');
+	$moduleObject = JModuleHelper::getModule($module, NULL);
 
-	require_once(JPATH_ROOT . '/modules/mod_' . $module . '/' . $helper . '.php');
-	$results = $class::$method($params);
+	/*
+	 * As JModuleHelper::isEnabled always returns true, we check
+	 * for an id other than 0 to see if it is published.
+	 */
+	if ($moduleObject->id != 0) {
+
+		jimport('joomla.filesystem.file');
+		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
+
+		$class  = 'mod' . ucfirst($module) . 'Helper';
+		$method = JRequest::getVar('method') ? JRequest::getVar('method') : 'get';
+
+		if (JFile::exists($helperFile)) {
+			require_once($helperFile);
+
+			if (method_exists($class, $method . 'Ajax')) {
+				$results = call_user_func($class . '::' . $method . 'Ajax');
+			} else {
+				$error = JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax');
+			}
+		} else {
+			$error = JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php');
+		}
+	} else {
+		$error = JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module);
+	}
 }
 
 /*
@@ -41,18 +73,19 @@ if (JRequest::getVar('plugin')) {
 	JPluginHelper::importPlugin('ajax');
 	$plugin     = ucfirst(JRequest::getVar('plugin'));
 	$dispatcher = JDispatcher::getInstance();
-	$results    = $dispatcher->trigger('onAjax' . $plugin);
+	$response   = $dispatcher->trigger('onAjax' . $plugin);
+	$results    = $response ? $response : ($error = JText::sprintf('COM_AJAX_NO_PLUGIN_RESPONSE', $plugin));
 }
 
-// Reference global application object
-$app = JFactory::getApplication();
-
-// Requested format passed via URL
-$format = strtolower(JRequest::getVar('format'));
+if (!is_null($error)) {
+	echo $error;
+	$app->close();
+}
 
 // Return the results in the desired format
 switch ($format) {
 	case 'json':
+		JResponse::setHeader('Content-Type', 'application/json', TRUE);
 		echo json_encode($results);
 		$app->close();
 		break;
