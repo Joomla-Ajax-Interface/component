@@ -4,17 +4,17 @@ A slim, extensible component to act as an entry point for Ajax functionality in 
 
 Anatomy of an Ajax Request
 ==========================
-** Required **
+**Required**
 
 - `option=com_ajax`
 - `[module|plugin]=name`
 
-** Optional **
+**Optional**
 
 - `format=[json|debug]`
 - `method=[get|custom fragment]`
 
-** Overview **
+**Overview**
 
 All requests begin with `?option=com_ajax`, which calls this extension, and must indicate the type of extension being called, and optionally the format.
 
@@ -24,10 +24,10 @@ For example, a request to `?option=com_ajax&module=session` would call `mod_sess
 
 Module Support
 ---------------
-** Summary **
+**Summary**
 Module support is accomplished via including the module's helper.php file and calling a helper class and method in that file.
 
-** Details **
+**Details**
 Module requests must include the `module` variable in the URL, paired with the name of the module (i.e. `module=session` for `mod_session`).
 
 This value is also used for:
@@ -41,10 +41,10 @@ The [Ajax Session Module](https://github.com/betweenbrain/Ajax-Session-Module) i
 
 Plugin Response
 ---------------
-** Summary **
+**Summary**
 Plugin support is accomplished by loading and triggering all enabled plugins that are part of the `onAjax[Name]` plugin group.
 
-** Details **
+**Details**
 Plugin requests must include the `plugin` variable in the URL, paired with the name of the plugin group (i.e. `plugin=session` for `onAjaxSession`).
 
 This value is also used for:
@@ -77,7 +77,6 @@ Shocking as it may seem, my goal is to also support Joomla 1.5. Therefore, the f
 * __2.5-develop__: the latest version in development for Joomla 2.5. This is the branch to base all pull requests for Joomla 2.5 on.
 * __1.5-master__: stable at all times, containing the latest tagged release for Joomla 1.5.
 * __1.5-develop__: the latest version in development for Joomla 1.5. This is the branch to base all pull requests for Joomla 1.5 on.
-
 
 Contributing
 ====================
