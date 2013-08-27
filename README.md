@@ -1,20 +1,66 @@
 Joomla! Ajax Interface
 ========
-A slim, extensible component to act as an entry point for Ajax functionality in Joomla. It is designed to execute plugins following the onAjax[foo] naming convention, where [foo] is the name of the Ajax plugin group to execute. For example, the [Ajax Session Plugin](https://github.com/betweenbrain/Ajax-Session-Plugin) is executed by the component calling  onAjaxSession as the plugin extends `JPlugin` with `plgAjaxSession`.
+A slim, extensible component to act as an entry point for Ajax functionality in Joomla.
 
-URL Convention
-==============
-Ajax events are triggered by submitting a request to `index.php?option=com_ajax` where:
+Anatomy of an Ajax Request
+==========================
+** Required **
 
-* `index.php?option=com_ajax` calls the extension.
-* `plugin=foo` where `foo` is the Ajax plugin group to execute (i.e. onAjaxFoo). __OR__
-* `module=bar` where `bar` is the name of the module. This variable is used to include the helper file (e.g. `/modules/mod_bar/helper.php`) as well as the class name (e.g. `modBarHelper`).
-* `method=qux`, defaults to `get` if not defined, where `qux` is the first portion of the `_Ajax()` method in the module's helper.php file (e.g. `quxAjax()`). This exmaple would call `modBarHelper::quxAjax()`.
-* Include additional variables and values for your target component to use (i.e. `variable=value`).
-* `format=json` is an option argument for JSON format and `format=debug` is an option argument for a basic human-readable format.<br/>
+- `option=com_ajax`
+- `[module|plugin]=name`
+
+** Optional **
+
+- `format=[json|debug]`
+- `method=[get|custom fragment]`
+
+** Overview **
+
+All requests begin with `?option=com_ajax`, which calls this extension, and must indicate the type of extension being called, and optionally the format.
+
+Additional variables and values used by your extension may also be included in the URL.
+
+For example, a request to `?option=com_ajax&module=session` would call `mod_session` with results returned in the default format. In contrast,`?option=com_ajax&plugin=session&format=json` would trigger the `onAjaxSession` plugin group with results returned in JSON.
+
+Module Support
+---------------
+** Summary **
+Module support is accomplished via including the module's helper.php file and calling a helper class and method in that file.
+
+** Details **
+Module requests must include the `module` variable in the URL, paired with the name of the module (i.e. `module=session` for `mod_session`).
+
+This value is also used for:
+- The name of the directory to check for the helper file `/modules/mod_[name]/helper.php`
+- The class name to call `mod[Name]Helper`
+
+Optionally, `method=name` may be included in the URL to designate a method other than the default `getAjax`.
+NOTE: All methods must end in `Ajax`. For example, `method=mySuperAwesomeMethodToTrigger` will call `mySuperAwesomeMethodToTriggerAjax`
+
+The [Ajax Session Module](https://github.com/betweenbrain/Ajax-Session-Module) is an example module that demonstrates this functionality.
+
+Plugin Response
+---------------
+** Summary **
+Plugin support is accomplished by loading and triggering all enabled plugins that are part of the `onAjax[Name]` plugin group.
+
+** Details **
+Plugin requests must include the `plugin` variable in the URL, paired with the name of the plugin group (i.e. `plugin=session` for `onAjaxSession`).
+
+This value is also used for:
+- The plugin class name following the `plgAjax[Name]` convention.
+- The plugin function name following the `onAjax[Name]` convention.
+
+
+The [Ajax Session Plugin](https://github.com/betweenbrain/Ajax-Session-Plugin) is an example plugin that demonstrates this functionality.
+
+Response Format
+---------------
+`format=[json|debug]` is an optional argument for the results format:
+- `json` for JSON format
+- `debug` for human-readable output of the results.
+
 **NOTE**: Omitting the `format` variable will default to a raw output.
-
-The [Ajax Session Module](https://github.com/betweenbrain/Ajax-Session-Module) is an example module to demonstrate interacting with the component and [Ajax Session Plugin](https://github.com/betweenbrain/Ajax-Session-Plugin)
 
 Stable Master Branch Policy
 ====================
@@ -25,8 +71,8 @@ In the event features have already been merged for the next release series, and 
 Branch Schema
 ==============
 Shocking as it may seem, my goal is to also support Joomla 1.5. Therefore, the following branch schema will be followed:
-* __master__: stable at all times, containing the latest tagged release for Joomla 3.x+.
-* __develop__: the latest version in development for Joomla 3.x+. This is the branch to base all pull requests for Joomla 2.5+ on.
+* __master__: stable at all times, containing the latest tagged release for Joomla 3.1+.
+* __develop__: the latest version in development for Joomla 3.1+. This is the branch to base all pull requests for Joomla 3.1+ on.
 * __2.5-master__: stable at all times, containing the latest tagged release for Joomla 2.5.
 * __2.5-develop__: the latest version in development for Joomla 2.5. This is the branch to base all pull requests for Joomla 2.5 on.
 * __1.5-master__: stable at all times, containing the latest tagged release for Joomla 1.5.
@@ -35,4 +81,4 @@ Shocking as it may seem, my goal is to also support Joomla 1.5. Therefore, the f
 
 Contributing
 ====================
-Your contributions are more than welcome! Please make all pull requests against the [develop](https://github.com/betweenbrain/Joomla-Ajax-Interface/tree/develop) branch for Joomla version 2.5+ and [1.5-develop](https://github.com/betweenbrain/Joomla-Ajax-Interface/tree/1.5-develop) for Joomla version 1.5.
+Your contributions are more than welcome! Please make all pull requests against the corresponding `develop` branch.
