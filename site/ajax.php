@@ -49,6 +49,14 @@ if ($input->get('module')) {
 
 		if (JFile::exists($helperFile)) {
 			require_once($helperFile);
+			if(!class_exists($class)){
+				$parts = explode('_', $module);
+				$class = 'Mod';
+				foreach($parts as $part){
+					$class .= ucfirst($part);
+				}
+				$class .= 'Helper';
+			}
 
 			if (method_exists($class, $method . 'Ajax')) {
 				$results = call_user_func($class . '::' . $method . 'Ajax');
