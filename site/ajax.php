@@ -44,20 +44,22 @@ if ($input->get('module')) {
 		jimport('joomla.filesystem.file');
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-		$class  = 'mod' . ucfirst($module) . 'Helper';
+		if (strpos($module, '_')) {
+			$parts = explode('_', $module);
+			$class = 'mod';
+			foreach ($parts as $part) {
+				$class .= ucfirst($part);
+			}
+			$class .= 'Helper';
+		} else {
+			$class = 'mod' . ucfirst($module) . 'Helper';
+		}
+		
 		$method = $input->get('method') ? $input->get('method') : 'get';
 
 		if (JFile::exists($helperFile)) {
 			require_once($helperFile);
-			if(!class_exists($class)){
-				$parts = explode('_', $module);
-				$class = 'Mod';
-				foreach($parts as $part){
-					$class .= ucfirst($part);
-				}
-				$class .= 'Helper';
-			}
-
+			
 			if (method_exists($class, $method . 'Ajax')) {
 				$results = call_user_func($class . '::' . $method . 'Ajax');
 			} else {
