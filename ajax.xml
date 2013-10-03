@@ -5,7 +5,7 @@
 	<author>Matt Thomas</author>
 	<authorUrl>http://betweenbrain.com</authorUrl>
 	<copyright>Copyright (C) 2013 betweenbrain llc. All rights reserved.</copyright>
-	<version>0.1</version>
+	<version>3.1</version>
 	<description>COM_AJAX_DESC</description>
 
 	<scriptfile>script.php</scriptfile>
