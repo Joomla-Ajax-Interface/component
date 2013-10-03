@@ -54,12 +54,12 @@ if ($input->get('module')) {
 		} else {
 			$class = 'mod' . ucfirst($module) . 'Helper';
 		}
-		
+
 		$method = $input->get('method') ? $input->get('method') : 'get';
 
 		if (JFile::exists($helperFile)) {
 			require_once($helperFile);
-			
+
 			if (method_exists($class, $method . 'Ajax')) {
 				$results = call_user_func($class . '::' . $method . 'Ajax');
 			} else {
