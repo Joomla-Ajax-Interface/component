@@ -74,7 +74,7 @@ In the event features have already been merged for the next release series, and 
 Branch Schema
 ==============
 Shocking as it may seem, the goal is to also support Joomla 1.5. Therefore, the following branch schema will be followed:
-* __master__: stable at all times, containing the latest documentation only as `com_ajax` is no part of Joomla core as  Joomla 3.2.
+* __master__: stable at all times, containing the latest documentation only as `com_ajax` is now part of Joomla core as  Joomla 3.2.
 * __develop__: the latest documentation in development for Joomla 3.2+. This is the branch to base all pull requests for Joomla 3.2+ on.
 * __2.5-master__: stable at all times, containing the latest tagged release for Joomla 2.5.
 * __2.5-develop__: the latest version in development for Joomla 2.5. This is the branch to base all pull requests for Joomla 2.5 on.
