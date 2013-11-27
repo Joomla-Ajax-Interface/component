@@ -2,7 +2,7 @@
 <install type="component"
          version="1.5"
          method="upgrade">
-	<name>Ajax Interface</name>
+	<name>Ajax</name>
 	<author>Matt Thomas</author>
 	<creationDate>June 5, 2013</creationDate>
 	<authorUrl>http://betweenbrain.com</authorUrl>
