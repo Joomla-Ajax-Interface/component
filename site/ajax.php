@@ -45,6 +45,11 @@ if (JRequest::getVar('module')) {
 
 		if (strpos($module, '_')) {
 			$parts = explode('_', $module);
+		} elseif (strpos($module, '-')) {
+			$parts = explode('-', $module);
+		}
+
+		if ($parts) {
 			$class = 'mod';
 			foreach ($parts as $part) {
 				$class .= ucfirst($part);
