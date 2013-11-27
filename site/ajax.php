@@ -34,7 +34,7 @@ if (!$format) {
  * Optionally pass values for the 'helper' file, 'class', and 'method' names.
  *
  */
-if (JRequest::getVar('module')) {
+elseif (JRequest::getVar('module')) {
 	jimport('joomla.application.module.helper');
 	$module       = JRequest::getWord('module');
 	$moduleObject = JModuleHelper::getModule($module, NULL);
@@ -89,7 +89,7 @@ if (JRequest::getVar('module')) {
  * 'plugin' variable passed via the URL (i.e. index.php?option=com_ajax&plugin=foo)
  *
  */
-if (JRequest::getVar('plugin')) {
+elseif (JRequest::getVar('plugin')) {
 	JPluginHelper::importPlugin('ajax');
 	$plugin     = ucfirst(JRequest::getVar('plugin'));
 	$dispatcher = JDispatcher::getInstance();
