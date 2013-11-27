@@ -19,6 +19,11 @@ $format = strtolower(JRequest::getWord('format'));
 $results = NULL;
 $error   = NULL;
 
+// Check for valid format
+if (!$format) {
+	$results = new InvalidArgumentException('Please specify response format other that HTML (json, raw, etc.)', 404);
+}
+
 /*
  * Module support is via the module helper file.
  *
