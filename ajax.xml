@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component"
-         version="1.5"
+         version="2.5"
          method="upgrade">
 	<name>Ajax</name>
 	<author>Matt Thomas</author>
