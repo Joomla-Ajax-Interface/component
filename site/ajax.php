@@ -27,7 +27,7 @@ $format = strtolower(JRequest::getWord('format'));
 
 // Initialized to prevent notices and errors
 $error   = null;
-$part    = null;
+$parts   = null;
 $results = null;
 
 // Check for valid format
