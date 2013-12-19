@@ -1,6 +1,6 @@
 Joomla! Ajax Interface
 ========
-A slim, extensible component to act as an entry point for Ajax functionality in Joomla.
+A slim, extensible component to act as an entry point for Ajax functionality in Joomla. It enables the ability to make requests to modules and plugins.
 
 Anatomy of an Ajax Request
 ==========================
@@ -16,7 +16,7 @@ Anatomy of an Ajax Request
 
 **Overview**
 
-All requests begin with `?option=com_ajax`, which calls this extension, and must indicate the type of extension being called, and optionally the format.
+All requests begin with `?option=com_ajax`, which calls this extension, and must indicate the type of extension to call, and the data format to be returned.
 
 Additional variables and values used by your extension may also be included in the URL.
 
@@ -26,45 +26,44 @@ Module Support
 ---------------
 **Summary**
 
-Module support is accomplished via including the module's helper.php file and calling a helper class and method in that file.
+Module support is accomplished by calling a method in the module's `helper.php` file.
 
 **Details**
 
 Module requests must include the `module` variable in the URL, paired with the name of the module (i.e. `module=session` for `mod_session`).
 
 This value is also used for:
-- The name of the directory to check for the helper file `/modules/mod_[name]/helper.php`
-- The class name to call `mod[Name]Helper`
+- The name of the directory to check for the helper file, e.g. `/modules/mod_session/helper.php`
+- The class name to call, e.g. `modSessionHelper`
 
-Optionally, `method=name` may be included in the URL to designate a method other than the default `getAjax`.
+Optionally, the `method` variable may be included to override the default method prefix of `get`. 
+
 NOTE: All methods must end in `Ajax`. For example, `method=mySuperAwesomeMethodToTrigger` will call `mySuperAwesomeMethodToTriggerAjax`
 
-The [Ajax Session Module](https://github.com/betweenbrain/Ajax-Session-Module) is an example module that demonstrates this functionality.
+The [Ajax Session Module](https://github.com/Joomla-Ajax-Interface/Ajax-Session-Module) is an example module that demonstrates this functionality.
 
 Plugin Response
 ---------------
 **Summary**
 
-Plugin support is accomplished by loading and triggering all enabled plugins that are part of the `onAjax[Name]` plugin group.
+Plugin support is accomplished by triggering the `onAjax[Name]` plugin event.
 
 **Details**
 
-Plugin requests must include the `plugin` variable in the URL, paired with the name of the plugin group (i.e. `plugin=session` for `onAjaxSession`).
+Plugin requests must include the `plugin` variable in the URL, paired with the name of the plugin event, e.g. `plugin=session` for `onAjaxSession`.
 
 This value is also used for:
 - The plugin class name following the `plgAjax[Name]` convention.
 - The plugin function name following the `onAjax[Name]` convention.
 
 
-The [Ajax Session Plugin](https://github.com/betweenbrain/Ajax-Session-Plugin) is an example plugin that demonstrates this functionality.
+The [Ajax Session Plugin](https://github.com/Joomla-Ajax-Interface/Ajax-Session-Plugin) is an example plugin that demonstrates this functionality.
 
 Response Format
 ---------------
 `format=[json|debug]` is an optional argument for the results format:
 - `json` for JSON format
 - `debug` for human-readable output of the results.
-
-NOTE: Omitting the `format` variable will default to a raw output.
 
 Stable Master Branch Policy
 ====================
@@ -74,13 +73,9 @@ In the event features have already been merged for the next release series, and 
 
 Branch Schema
 ==============
-Shocking as it may seem, my goal is to also support Joomla 1.5. Therefore, the following branch schema will be followed:
-* __master__: stable at all times, containing the latest tagged release for Joomla 3.1+.
-* __develop__: the latest version in development for Joomla 3.1+. This is the branch to base all pull requests for Joomla 3.1+ on.
-* __2.5-master__: stable at all times, containing the latest tagged release for Joomla 2.5.
-* __2.5-develop__: the latest version in development for Joomla 2.5. This is the branch to base all pull requests for Joomla 2.5 on.
-* __1.5-master__: stable at all times, containing the latest tagged release for Joomla 1.5.
-* __1.5-develop__: the latest version in development for Joomla 1.5. This is the branch to base all pull requests for Joomla 1.5 on.
+Shocking as it may seem, the goal is to also support Joomla 1.5. Therefore, the following branch schema will be followed:
+* __master__ :  stable at all times, containing the latest tagged release for Joomla 1.5 and 2.5.
+* __develop__: the latest version in development for Joomla 1.5 and 2.5. This is the branch to base all pull requests for Joomla 2.5 on.
 
 Contributing
 ====================
