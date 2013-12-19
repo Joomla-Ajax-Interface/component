@@ -16,15 +16,13 @@ $app = JFactory::getApplication();
 $format = strtolower(JRequest::getWord('format'));
 
 // Initialized to prevent notices
-$results = NULL;
-$error   = NULL;
+$results = null;
+$error   = null;
 
 // Check for valid format
 if (!$format) {
 	$results = new InvalidArgumentException(JText::_('COM_AJAX_SPECIFY_FORMAT'), 404);
-}
-
-/*
+} /*
  * Module support is via the module helper file.
  *
  * By default, the getAjax method of the modFooHelper class will be called,
@@ -37,7 +35,7 @@ if (!$format) {
 elseif (JRequest::getVar('module')) {
 	jimport('joomla.application.module.helper');
 	$module       = JRequest::getWord('module');
-	$moduleObject = JModuleHelper::getModule($module, NULL);
+	$moduleObject = JModuleHelper::getModule($module, null);
 
 	/*
 	 * As JModuleHelper::isEnabled always returns true, we check
@@ -80,9 +78,7 @@ elseif (JRequest::getVar('module')) {
 	} else {
 		$error = JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module);
 	}
-}
-
-/*
+} /*
  * Plugin support is based on the "Ajax" plugin group.
  *
  * The plugin event triggered is onAjaxFoo, where foo is the value of the
@@ -105,12 +101,12 @@ if (!is_null($error)) {
 // Return the results in the desired format
 switch ($format) {
 	case 'json':
-		JResponse::setHeader('Content-Type', 'application/json', TRUE);
+		JResponse::setHeader('Content-Type', 'application/json', true);
 		echo json_encode($results);
 		$app->close();
 		break;
 	case 'debug':
-		echo '<pre>' . print_r($results, TRUE) . '</pre>';
+		echo '<pre>' . print_r($results, true) . '</pre>';
 		$app->close();
 		break;
 	default:
