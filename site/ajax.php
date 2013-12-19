@@ -15,9 +15,10 @@ $app = JFactory::getApplication();
 // Requested format passed via URL
 $format = strtolower(JRequest::getWord('format'));
 
-// Initialized to prevent notices
-$results = null;
+// Initialized to prevent notices and errors
 $error   = null;
+$part    = null;
+$results = null;
 
 // Check for valid format
 if (!$format) {
@@ -115,13 +116,3 @@ switch ($format) {
 		$app->close();
 		break;
 }
-
-/*
- * References
- *  Support plugins in your component
- * - http://docs.joomla.org/Supporting_plugins_in_your_component
- *
- * Best way for JSON output
- * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
- *
- */
