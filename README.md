@@ -2,6 +2,8 @@ Joomla! Ajax Interface
 ========
 A slim, extensible component to act as an entry point for Ajax functionality in Joomla. It enables the ability to make requests to modules and plugins.
 
+**VERSION NOTE:** Since it's inclusion in Joomla 3.2, this repository will only maintain a version of the component for Joomla 1.5 and 2.5.
+
 Anatomy of an Ajax Request
 ==========================
 **Required**
