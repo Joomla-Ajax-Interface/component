@@ -9,7 +9,7 @@
  * License    GNU General Public License version 2, or later.
  */
 
-/*
+/**
  * References
  *  Support plugins in your component
  * - http://docs.joomla.org/Supporting_plugins_in_your_component
@@ -31,9 +31,12 @@ $parts   = null;
 $results = null;
 
 // Check for valid format
-if (!$format) {
+if (!$format)
+{
 	$results = new InvalidArgumentException(JText::_('COM_AJAX_SPECIFY_FORMAT'), 404);
-} /*
+}
+
+/**
  * Module support is via the module helper file.
  *
  * By default, the getAjax method of the modFooHelper class will be called,
@@ -43,7 +46,8 @@ if (!$format) {
  * Optionally pass values for the 'helper' file, 'class', and 'method' names.
  *
  */
-elseif (JRequest::getVar('module')) {
+elseif (JRequest::getVar('module'))
+{
 	jimport('joomla.application.module.helper');
 	$module       = JRequest::getWord('module');
 	$moduleObject = JModuleHelper::getModule($module, null);
@@ -52,51 +56,70 @@ elseif (JRequest::getVar('module')) {
 	 * As JModuleHelper::isEnabled always returns true, we check
 	 * for an id other than 0 to see if it is published.
 	 */
-	if ($moduleObject->id != 0) {
+	if ($moduleObject->id != 0)
+	{
 
 		jimport('joomla.filesystem.file');
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-		if (strpos($module, '_')) {
+		if (strpos($module, '_'))
+		{
 			$parts = explode('_', $module);
-		} elseif (strpos($module, '-')) {
+		}
+		elseif (strpos($module, '-'))
+		{
 			$parts = explode('-', $module);
 		}
 
-		if ($parts) {
+		if ($parts)
+		{
 			$class = 'mod';
-			foreach ($parts as $part) {
+			foreach ($parts as $part)
+			{
 				$class .= ucfirst($part);
 			}
 			$class .= 'Helper';
-		} else {
+		}
+		else
+		{
 			$class = 'mod' . ucfirst($module) . 'Helper';
 		}
 
 		$method = JRequest::getVar('method') ? JRequest::getVar('method') : 'get';
 
-		if (JFile::exists($helperFile)) {
+		if (JFile::exists($helperFile))
+		{
 			require_once $helperFile;
 
-			if (method_exists($class, $method . 'Ajax')) {
+			if (method_exists($class, $method . 'Ajax'))
+			{
 				$results = call_user_func($class . '::' . $method . 'Ajax');
-			} else {
+			}
+			else
+			{
 				$error = JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax');
 			}
-		} else {
+		}
+		else
+		{
 			$error = JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php');
 		}
-	} else {
+	}
+	else
+	{
 		$error = JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module);
 	}
-} /*
+}
+
+/**
  * Plugin support is based on the "Ajax" plugin group.
  *
  * The plugin event triggered is onAjaxFoo, where foo is the value of the
  * 'plugin' variable passed via the URL (i.e. index.php?option=com_ajax&plugin=foo)
  *
  */
-elseif (JRequest::getVar('plugin')) {
+elseif (JRequest::getVar('plugin'))
+{
 	JPluginHelper::importPlugin('ajax');
 	$plugin     = ucfirst(JRequest::getVar('plugin'));
 	$dispatcher = JDispatcher::getInstance();
@@ -104,13 +127,15 @@ elseif (JRequest::getVar('plugin')) {
 	$results    = $response ? $response : ($error = JText::sprintf('COM_AJAX_NO_PLUGIN_RESPONSE', $plugin));
 }
 
-if (!is_null($error)) {
+if (!is_null($error))
+{
 	echo $error;
 	$app->close();
 }
 
 // Return the results in the desired format
-switch ($format) {
+switch ($format)
+{
 	case 'json':
 		JResponse::setHeader('Content-Type', 'application/json', true);
 		echo json_encode($results);
