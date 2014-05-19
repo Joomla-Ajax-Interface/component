@@ -40,7 +40,7 @@ $results = null;
  * Optionally pass values for the 'helper' file, 'class', and 'method' names.
  *
  */
-elseif (JRequest::getVar('module'))
+if (JRequest::getVar('module'))
 {
 	jimport('joomla.application.module.helper');
 	$module       = JRequest::getWord('module');
