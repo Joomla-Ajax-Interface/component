@@ -23,18 +23,12 @@
 $app = JFactory::getApplication();
 
 // Requested format passed via URL
-$format = strtolower(JRequest::getWord('format'));
+$format = strtolower(JRequest::getWord('format', 'raw'));
 
 // Initialized to prevent notices and errors
 $error   = null;
 $parts   = null;
 $results = null;
-
-// Check for valid format
-if (!$format)
-{
-	$results = new InvalidArgumentException(JText::_('COM_AJAX_SPECIFY_FORMAT'), 404);
-}
 
 /**
  * Module support is via the module helper file.
@@ -145,6 +139,7 @@ switch ($format)
 		echo '<pre>' . print_r($results, true) . '</pre>';
 		$app->close();
 		break;
+	case 'raw':
 	default:
 		echo is_array($results) ? implode($results) : $results;
 		// Emulates format=raw by closing $app
