@@ -23,7 +23,7 @@
 $app = JFactory::getApplication();
 
 // Requested format passed via URL
-$format = strtolower(JRequest::getWord('format'));
+$format = strtolower(JRequest::getWord('format', 'raw'));
 
 // Initialized to prevent notices and errors
 $error   = null;
@@ -40,7 +40,7 @@ $results = null;
  * Optionally pass values for the 'helper' file, 'class', and 'method' names.
  *
  */
-if (JRequest::getVar('module'))
+elseif (JRequest::getVar('module'))
 {
 	jimport('joomla.application.module.helper');
 	$module       = JRequest::getWord('module');
