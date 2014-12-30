@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.0
  */
-class JResponseJson
+class AjaxResponse
 {
 	/**
 	 * Determines whether the request was successful
