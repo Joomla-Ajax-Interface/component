@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * This class serves to provide the Joomla Platform with a common interface to access
  * response variables for e.g. Ajax requests.
  *
- * @since  2.0
+ * @since  3.0
  */
 class AjaxResponse
 {
@@ -24,7 +24,7 @@ class AjaxResponse
 	 * Determines whether the request was successful
 	 *
 	 * @var    boolean
-	 * @since  2.0
+	 * @since  3.0
 	 */
 	public $success = true;
 
@@ -32,7 +32,7 @@ class AjaxResponse
 	 * The main response message
 	 *
 	 * @var    string
-	 * @since  2.0
+	 * @since  3.0
 	 */
 	public $message = null;
 
@@ -40,7 +40,7 @@ class AjaxResponse
 	 * Array of messages gathered in the JApplication object
 	 *
 	 * @var    array
-	 * @since  2.0
+	 * @since  3.0
 	 */
 	public $messages = null;
 
@@ -48,7 +48,7 @@ class AjaxResponse
 	 * The response data
 	 *
 	 * @var    mixed
-	 * @since  2.0
+	 * @since  3.0
 	 */
 	public $data = null;
 
@@ -60,7 +60,7 @@ class AjaxResponse
 	 * @param   boolean  $error           True, if the success flag shall be set to false, defaults to false
 	 * @param   boolean  $ignoreMessages  True, if the message queue shouldn't be included, defaults to false
 	 *
-	 * @since   2.0
+	 * @since   3.0
 	 */
 	public function __construct($response = null, $message = null, $error = false, $ignoreMessages = false)
 	{
@@ -112,7 +112,7 @@ class AjaxResponse
 	 *
 	 * @return  string  The response in JSON format
 	 *
-	 * @since   2.0
+	 * @since   3.0
 	 */
 	public function __toString()
 	{
