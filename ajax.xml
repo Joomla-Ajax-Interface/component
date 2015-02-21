@@ -13,6 +13,7 @@
 
 	<files folder="site">
 		<filename>ajax.php</filename>
+		<filename>response.php</filename>
 		<filename>index.html</filename>
 	</files>
 
