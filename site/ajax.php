@@ -138,7 +138,6 @@ switch ($format)
 		// Set up the response
 		$response = new AjaxResponse($results);
 		echo (string) $response;
-		$app->close();
 		break;
 	case 'debug':
 		echo '<pre>' . print_r($results, true) . '</pre>';
