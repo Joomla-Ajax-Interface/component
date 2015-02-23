@@ -8,11 +8,12 @@
 	<authorUrl>http://betweenbrain.com</authorUrl>
 	<copyright>Copyright (C) 2013 betweenbrain llc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2, or later.</license>
-	<version>2.5.2</version>
+	<version>3.0.0</version>
 	<description>A Joomla! 1.5/2.5 Ajax interface</description>
 
 	<files folder="site">
 		<filename>ajax.php</filename>
+		<filename>response.php</filename>
 		<filename>index.html</filename>
 	</files>
 

@@ -131,9 +131,13 @@ if (!is_null($error))
 switch ($format)
 {
 	case 'json':
+		// Require the backported JResponseJson class
+		require_once dirname(__FILE__) . '/response.php';
 		JResponse::setHeader('Content-Type', 'application/json', true);
-		echo json_encode($results);
-		$app->close();
+
+		// Set up the response
+		$response = new AjaxResponse($results);
+		echo (string) $response;
 		break;
 	case 'debug':
 		echo '<pre>' . print_r($results, true) . '</pre>';
