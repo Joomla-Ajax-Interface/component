@@ -10,6 +10,8 @@
 	<license>GNU General Public License version 2, or later.</license>
 	<version>3.0.0</version>
 	<description>A Joomla! 1.5/2.5 Ajax interface</description>
+	
+	<scriptfile>script.php</scriptfile>
 
 	<files folder="site">
 		<filename>ajax.php</filename>
